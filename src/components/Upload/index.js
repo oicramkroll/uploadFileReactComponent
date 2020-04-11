@@ -6,7 +6,7 @@ import Dropzone from 'react-dropzone'
 export default class components extends Component {
     renderDragMessage = (isDragActive,isDragReject)=>{
         if(!isDragActive) 
-            return <UploadMenssage>Arraste seus arquivos aqui...</UploadMenssage>
+            return <UploadMenssage>Selecione ou solte seus arquivos aqui.</UploadMenssage>
 
         if(isDragReject)
             return <UploadMenssage type="error">Arquivos não suportados</UploadMenssage>
