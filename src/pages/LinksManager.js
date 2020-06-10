@@ -3,16 +3,15 @@ import GlobalStyle from '../styles/global';
 import {Container,Content} from '../styles'; 
 import axios from 'axios';
 
-const user = JSON.parse(localStorage.getItem('user'));
-const configHeader = {
-    headers:{
-        Authorization:user.token
-    }
-};
-
 export default ()=>{
     const [links,setLinks] = useState([]);
     const [link,setLink] = useState({});
+    const user = localStorage.getItem('user')? JSON.parse(localStorage.getItem('user')):{token:''};
+    const configHeader = {
+        headers:{
+            Authorization:user.token
+        }
+    };
     
     const handleChange = (e)=>{
         setLink({...link,[e.target.name]:e.target.value});
