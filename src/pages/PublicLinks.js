@@ -34,12 +34,10 @@ export default (props)=>{
             setMensage(`${response.data.length} de paginas encontradas com a tag ${tag}`)
         })
     }
-
     const handleSubmit = (e)=>{
         e.preventDefault();
         findByTag(searchInput);
     }
-
     return (
         <>
             <Container>
