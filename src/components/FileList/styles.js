@@ -23,12 +23,13 @@ export const FileInfo = styled.div`
             font-size: 12px;
             color:#eeeeee;
             margin-top:5px;
-            
             button{
-                border:0;
+                border:none;
+                box-shadow:none;
                 background:transparent;
                 color:#d65a31;
                 margin-left:5px;
+                padding:0;
                 cursor:pointer;
             }
         }

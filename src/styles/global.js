@@ -38,6 +38,10 @@ button{
   -moz-box-shadow: 0px 5px 55px 0px rgba(0,0,0,0.75);
   box-shadow: 0px 5px 5px 0px rgba(0,0,0,0.75);
 }
+span{
+    display:flex;
+    justify-content: space-between;
+}
 li{
     list-style:none;
     line-height: 2;
