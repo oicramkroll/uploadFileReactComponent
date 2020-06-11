@@ -54,7 +54,7 @@ export default (props)=>{
                         {links.map(link=>(
                             <li className="tag" key={link.id}>
                                 <div>
-                                    <a target="_blank" href={link.link}><h4>{link.title}</h4></a>
+                                    <a target="_blank" href={link.link}><h4>#{link.id} - {link.title}</h4></a>
                                 </div>
                                 <div>
                                     <p>{link.description}</p>
