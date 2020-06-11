@@ -2,7 +2,7 @@
 
 Projeto em React js, componente de upload de arquivos consumindo api
 
-[Demonstração da aplicação](https://uploadfile-react-component.herokuapp.com/)
+[Demonstração da aplicação](https://uploadfile-react-component.herokuapp.com/upload)
 
 [Projeto da api](https://github.com/oicramkroll/uploadFileAWSExemple)
 
