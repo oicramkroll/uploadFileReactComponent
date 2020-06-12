@@ -12,6 +12,13 @@ export default (props)=>{
     const [links,setLinks] = useState([]);
     const [mensage,setMensage] = useState('Buscando pagina solicitada...');
 
+    const findByTag = (tagSearch)=>{
+        axios.get(`${process.env.REACT_APP_TOOLLINK_API_URL}/links${tagSearch}`).then((response)=>{
+            setLinks(response.data);
+            setMensage(`${response.data.length} de paginas encontradas com a tag ${tag}`)
+        })
+    }
+
     useEffect(()=>{
         try {
             if(id)
@@ -26,14 +33,9 @@ export default (props)=>{
             setMensage('Não foi possivel recuperar a pagia solicitada');
         }
         
-    },[]);
+    },[id,tag]);
 
-    const findByTag = (tagSearch)=>{
-        axios.get(`${process.env.REACT_APP_TOOLLINK_API_URL}/links${tagSearch}`).then((response)=>{
-            setLinks(response.data);
-            setMensage(`${response.data.length} de paginas encontradas com a tag ${tag}`)
-        })
-    }
+    
     const handleSubmit = (e)=>{
         e.preventDefault();
         findByTag(searchInput);
@@ -54,7 +56,7 @@ export default (props)=>{
                         {links.map(link=>(
                             <li className="tag" key={link.id}>
                                 <div>
-                                    <a target="_blank" href={link.link}><h4>#{link.id} - {link.title}</h4></a>
+                                    <a rel="noopener noreferrer" target="_blank" href={link.link}><h4>#{link.id} - {link.title}</h4></a>
                                 </div>
                                 <div>
                                     <p>{link.description}</p>
