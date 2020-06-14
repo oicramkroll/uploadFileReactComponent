@@ -75,6 +75,12 @@ option {
     background:var(--primary-color);
     font-size:20px;
 }
+input ~ span{
+    position: absolute;
+    top:0;
+    left:0;
+    color:var(--text-color);
+}
 input ~ label,
 select ~ label
 {
@@ -150,6 +156,7 @@ input[type="checkbox"]:checked{
 export default ()=>{
     const [pets,setPet] = useState([new Date().getTime()]);
     const [valorTotal,setValorTotal] = useState(60);
+    const [valueCheckIn,setValueCheckIn] = useState(new Date());
     const addPet =()=>{
         setPet([...pets,new Date().getTime()]);
         setTimeout(total, 500);
@@ -163,10 +170,19 @@ export default ()=>{
         }
         setTimeout(total, 500);
     }
+    const setCheckIn =(e)=>{
+
+    }
+    const setCheckOut =(e)=>{
+        
+    }
     const total = ()=>{
-        const total = Array.from(document.querySelectorAll('.pets select')).map( (el) =>(
-            parseInt(el.value)
-        )).reduce((total,num) =>{
+        const total = Array.from(document.querySelectorAll('.pets select'))
+        .map( (el) =>{
+            const check = el.parentNode.parentNode.querySelector('input[type="checkbox"]:checked')
+            ? 20:0;
+            return parseInt(el.value)+check;
+        }).reduce((total,num) =>{
         return total + Math.round(num);
         },0);
         setValorTotal(total);
@@ -210,6 +226,19 @@ export default ()=>{
                 required />
                 <label>Endereço completo</label>
             </div>
+
+            <div className="pets">
+                <div className="input">
+                    <input type="date" 
+                    required/>
+                    <span>Check-In</span>
+                </div>
+                <div className="input">
+                    <input type="date" required/>
+                    <span>Check-Out</span>
+                </div>
+            </div>
+
             <button type="button" onClick={addPet}>
                 <span>
                     <FaPlus/> Incluir Pet <FaPaw/>
@@ -241,7 +270,7 @@ export default ()=>{
                         &nbsp;<FaTrash/>&nbsp;
                     </a>
                     
-                    <label className="check" htmlFor={pet}>
+                    <label className="check" onChange={total} htmlFor={pet}>
                         <input type="checkbox" id={pet}/>
                         Seu pet pessui alguma necessidade especial?
                     </label>
@@ -251,7 +280,7 @@ export default ()=>{
                 
             <button type="submit">
                 <span>
-                    Enviar <FaPaperPlane/>
+                    Enviar solicitação <FaPaperPlane/>
                 </span>
                 <span className="currency">
                     {valorTotal}
