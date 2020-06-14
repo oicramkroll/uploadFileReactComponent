@@ -26,7 +26,7 @@ body{
 form {
     background: rgb(var(--bg-color) , 0.3); 
     width:100%;
-    max-width:500px;
+    /*max-width:500px;*/
     margin:32px auto;
     padding:32px 64px;
     display:flex;
@@ -34,6 +34,7 @@ form {
 }
 form h2{
     margin-bottom:32px;
+    color:var(--text-color);
 }
 div.input{
     margin-bottom:24px;
@@ -59,8 +60,10 @@ button{
     background-color:var(--primary-color);
     padding-left:15px;
     padding-right:15px;
+    border-radius:4px;
     cursor:pointer;
     transition: opacity .4s;
+
 }
 button:hover{
     opacity:0.6;
@@ -99,6 +102,7 @@ input::placeholder{
 .pets {
     display: flex;
     flex-wrap: wrap;
+    justify-content:space-between;
     border-radius: 3px;
     background: var(--light-color);
     margin: 16px 0;
@@ -106,6 +110,9 @@ input::placeholder{
     -webkit-box-shadow: 6px 6px 4px 0px var(--error-color);
     -moz-box-shadow: 6px 6px 4px 0px var(--error-color);
     box-shadow: 6px 6px 4px 0px var(--error-color);
+}
+.pets *{
+    margin:0 5px;
 }
 span.currency:before {
     content:"R$ "
