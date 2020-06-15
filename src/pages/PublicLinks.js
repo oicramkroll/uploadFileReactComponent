@@ -32,10 +32,10 @@ export default (props)=>{
         }
     },[id,tag,searchInput]);
 
-    const handleCopy = (id,url)=>{
+    const handleCopy = (id)=>{
         const spanTemp = document.createElement('sapn');
         spanTemp.setAttribute('id',`tool_${id}`);
-        spanTemp.innerText = url;
+        spanTemp.innerText = `${window.location.href}/${id}`;
         document.querySelector('body').appendChild(spanTemp);
         getSelection().removeAllRanges();
         var range = document.createRange();
