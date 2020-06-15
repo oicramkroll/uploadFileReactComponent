@@ -30,7 +30,6 @@ export default (props)=>{
         } catch (error) {
             setMensage('Não foi possivel recuperar a pagia solicitada');
         }
-        
     },[id,tag,searchInput]);
 
     const handleCopy = (id,url)=>{
@@ -45,6 +44,7 @@ export default (props)=>{
         document.execCommand("copy");
         spanTemp.remove();
     }
+   
     const handleSubmit = (e)=>{
         e.preventDefault();
         setSearchInput(document.querySelector('form input').value);
@@ -68,12 +68,11 @@ export default (props)=>{
                                     rel="noopener noreferrer"
                                     href={link.link}>
                                         <h4>#{link.id} - {link.title}</h4>
-                                        
                                     </a>
-                                    
                                     <button className="btnLink" onClick={()=> {handleCopy(link.id,link.link)}} >
                                     <FaCopy/>
                                     </button>
+
                                 </div>
                                 <div>
                                     <p>{link.description}</p>
