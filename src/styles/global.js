@@ -68,4 +68,12 @@ li div *{
 a{
     color:#ccc;
 }
+.btnLink{
+    text-decoration: none;
+    border: none;
+    box-shadow: none;
+    padding: 0;
+    width: auto;
+    min-width: auto;
+}
 `

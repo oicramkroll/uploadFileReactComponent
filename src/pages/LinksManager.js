@@ -28,7 +28,7 @@ export default ()=>{
             console.log(error);
         }
             
-    },[]);
+    },[configHeader]);
 
     const removeTool = async (id)=>{
         try {
