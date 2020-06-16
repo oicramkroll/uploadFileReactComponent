@@ -29,6 +29,7 @@ form {
     /*max-width:500px;
     margin:32px auto;
     padding:32px 64px;*/
+    padding-right:10px;
     display:flex;
     flex-direction:column;
 }
