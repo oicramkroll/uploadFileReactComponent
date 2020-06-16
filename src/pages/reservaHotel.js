@@ -34,7 +34,7 @@ form {
 }
 form h2{
     margin-bottom:32px;
-    color:var(--text-color);
+    color:var(--error-color);
 }
 div.input{
     margin-bottom:24px;
