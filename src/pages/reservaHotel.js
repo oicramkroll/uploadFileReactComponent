@@ -26,9 +26,9 @@ body{
 form {
     /*background: rgb(var(--bg-color) , 0.3); */
     width:100%;
-    /*max-width:500px;*/
+    /*max-width:500px;
     margin:32px auto;
-    padding:32px 64px;
+    padding:32px 64px;*/
     display:flex;
     flex-direction:column;
 }
