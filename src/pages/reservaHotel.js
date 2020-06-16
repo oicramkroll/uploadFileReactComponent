@@ -1,4 +1,4 @@
-import React,{useState} from 'react';
+import React,{useState,useEffect} from 'react';
 import { createGlobalStyle} from 'styled-components';
 import {FaPaw} from 'react-icons/fa';
 import {FaPlus} from 'react-icons/fa';
@@ -154,29 +154,48 @@ input[type="checkbox"]:checked{
 `;
 
 export default ()=>{
-    const [pets,setPet] = useState([new Date().getTime()]);
+    var dateTomorrow = new Date();
+    dateTomorrow.setDate(new Date().getDate()+1);
+   
+    const [pets,setPets] = useState([new Date().getTime()]);
     const [valorTotal,setValorTotal] = useState(60);
-    const [valueCheckIn,setValueCheckIn] = useState(new Date());
+    const [valueCheckIn,setValueCheckIn] = useState(new Date().toISOString().substr(0,10));
+    const [valueCheckOut,setValueCheckOut] = useState(dateTomorrow.toISOString().substr(0,10));
+    const [minValueChekOut,setMinValueCheckOut] = useState(dateTomorrow);
+    const handleSubmmit =(e)=>{
+        e.preventDefault();
+        if(valorTotal === 0) alert('Inclua pets');
+    }
+    
     const addPet =()=>{
-        setPet([...pets,new Date().getTime()]);
-        setTimeout(total, 500);
+        setPets([...pets,new Date().getTime()]);
     }
     const removePet = (id)=>{
         var array = [...pets]; 
         var index = array.indexOf(id)
         if (index !== -1) {
             array.splice(index, 1);
-            setPet(array);
+            setPets(array);
         }
-        setTimeout(total, 500);
     }
     const setCheckIn =(e)=>{
-
+        const nDate = new Date(new Date().setDate(new Date(Date.parse(e.target.value)).getDate()+1));
+        setValueCheckIn(nDate.toISOString().substr(0,10));
+        const nDateCheckOut = new Date(new Date().setDate(nDate.getDate()+1));
+        setValueCheckOut(nDateCheckOut.toISOString().substr(0,10));
+        setMinValueCheckOut(nDateCheckOut.toISOString().substr(0,10)) 
     }
     const setCheckOut =(e)=>{
+        const nDate = new Date(new Date().setDate(new Date(Date.parse(e.target.value)).getDate()+1));
+        setValueCheckOut(nDate.toISOString().substr(0,10));
         
     }
-    const total = ()=>{
+    const handlePetChange =()=>{
+        /*clear to recalculate*/
+        setValorTotal(0);
+    }
+
+    useEffect(()=>{
         const total = Array.from(document.querySelectorAll('.pets select'))
         .map( (el) =>{
             const check = el.parentNode.parentNode.querySelector('input[type="checkbox"]:checked')
@@ -185,12 +204,13 @@ export default ()=>{
         }).reduce((total,num) =>{
         return total + Math.round(num);
         },0);
-        setValorTotal(total);
-    }
-    const handleSubmmit =(e)=>{
-        e.preventDefault();
-        if(valorTotal === 0) alert('Inclua pets');
-    }
+
+        const msDiff = new Date(Date.parse(valueCheckOut)).getTime() - new Date(valueCheckIn).getTime();
+        const dayDiff = Math.floor(msDiff / (1000 * 60 * 60 * 24));
+        setValorTotal(total * dayDiff);
+    },[valorTotal,pets,valueCheckOut,valueCheckIn]);
+
+    
 
     return (
         <>
@@ -228,13 +248,20 @@ export default ()=>{
             </div>
 
             <div className="pets">
-                <div className="input">
-                    <input type="date" 
+                <div className="input" >
+                    <input type="date"
+                    value={valueCheckIn}
+                    min={new Date().toISOString().substr(0,10)}
+                    onChange={setCheckIn} 
                     required/>
                     <span>Check-In</span>
                 </div>
                 <div className="input">
-                    <input type="date" required/>
+                    <input type="date" 
+                    value={valueCheckOut}
+                    min={minValueChekOut}
+                    onChange={setCheckOut}
+                    required/>
                     <span>Check-Out</span>
                 </div>
             </div>
@@ -255,7 +282,7 @@ export default ()=>{
                         <label>Nome</label>
                     </div>
                     <div className="input">
-                        <select onChange={total}>
+                        <select onChange={handlePetChange}>
                             <option value="60">0 - 10kg</option>
                             <option  value="70">1 - 20kg</option>
                             <option  value="80">21 - 30kg</option>
@@ -270,7 +297,7 @@ export default ()=>{
                         &nbsp;<FaTrash/>&nbsp;
                     </a>
                     
-                    <label className="check" onChange={total} htmlFor={pet}>
+                    <label className="check" onChange={handlePetChange} htmlFor={pet}>
                         <input type="checkbox" id={pet}/>
                         Seu pet pessui alguma necessidade especial?
                     </label>
