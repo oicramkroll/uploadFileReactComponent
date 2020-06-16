@@ -24,7 +24,7 @@ body{
     -webkit-font-smoothing: antialalised;
 }
 form {
-    background: rgb(var(--bg-color) , 0.3); 
+    /*background: rgb(var(--bg-color) , 0.3); */
     width:100%;
     /*max-width:500px;*/
     margin:32px auto;
@@ -151,6 +151,9 @@ input[type="checkbox"]:checked{
     background: transparent;
     transform: rotate(225deg);
 }
+.user input, .user label{
+    color:var(--error-color);
+}
 `;
 
 export default ()=>{
@@ -216,6 +219,7 @@ export default ()=>{
         <>
         <CurrentStyle/>
         <form onSubmit={handleSubmmit}>
+            <div className="user">
             <h2>Reservar</h2>
             <div className="input">
                 <input type="text" 
@@ -245,6 +249,7 @@ export default ()=>{
                 <input type="text"
                 required />
                 <label>Endereço completo</label>
+            </div>
             </div>
 
             <div className="pets">
