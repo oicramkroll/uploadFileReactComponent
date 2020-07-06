@@ -1,10 +1,10 @@
-import React,{useState,useEffect} from 'react';
-import { createGlobalStyle} from 'styled-components';
-import {FaPaw} from 'react-icons/fa';
-import {FaPlus} from 'react-icons/fa';
-import {FaTrash} from 'react-icons/fa';
-import {FaPaperPlane} from 'react-icons/fa';
-const CurrentStyle =  createGlobalStyle`
+import React, { useState, useEffect } from 'react';
+import { createGlobalStyle } from 'styled-components';
+import { FaPaw } from 'react-icons/fa';
+import { FaPlus } from 'react-icons/fa';
+import { FaTrash } from 'react-icons/fa';
+import { FaPaperPlane } from 'react-icons/fa';
+const CurrentStyle = createGlobalStyle`
 :root{
  --primary-color:#f29197;
  --bg-color:44, 181, 163;
@@ -121,10 +121,10 @@ input::placeholder{
 .pets *{
     margin:0 5px;
 }
-span.currency:before {
+span.currency:before{
     content:"R$ "
 }
-span.currency:after {
+span.currency:after{
     content:",00"
 }
 label.check {
@@ -157,169 +157,196 @@ input[type="checkbox"]:checked{
 }
 `;
 
-export default ()=>{
+export default () => {
     var dateTomorrow = new Date();
-    dateTomorrow.setDate(new Date().getDate()+1);
-   
-    const [pets,setPets] = useState([new Date().getTime()]);
-    const [valorTotal,setValorTotal] = useState(60);
-    const [valueCheckIn,setValueCheckIn] = useState(new Date().toISOString().substr(0,10));
-    const [valueCheckOut,setValueCheckOut] = useState(dateTomorrow.toISOString().substr(0,10));
-    const [minValueChekOut,setMinValueCheckOut] = useState(dateTomorrow);
-    const handleSubmmit =(e)=>{
+    dateTomorrow.setDate(new Date().getDate() + 1);
+
+    const [pets, setPets] = useState([new Date().getTime()]);
+    const [valorTotal, setValorTotal] = useState(60);
+    const [valueCheckIn, setValueCheckIn] = useState(new Date().toISOString().substr(0, 10));
+    const [valueCheckOut, setValueCheckOut] = useState(dateTomorrow.toISOString().substr(0, 10));
+    const [minValueChekOut, setMinValueCheckOut] = useState(dateTomorrow);
+    const valorTaxiDog = 50;
+    const handleSubmmit = (e) => {
         e.preventDefault();
-        if(valorTotal === 0) alert('Inclua pets');
-    }
+        if (valorTotal === 0) alert('Inclua pets');
+        const textPets = Array.from(document.querySelectorAll('.pets.list')).map(item => {
+            const name = item.querySelector('input[type="text"]').value;
+            const size = item.querySelector('select option:checked').innerText;
+            const especial = item.querySelector('input[type="checkbox"]:checked')!== null;
+        return `*${name}, peso ${size} ${especial ? 'com necessidades especiais.':'.'}* `;
+        }).join('%0a');
+        const checkOutFormated =  new Date(new Date().setDate(new Date(Date.parse(valueCheckOut)).getDate() + 1)).toLocaleDateString();
+        const checkInFormated =  new Date(new Date().setDate(new Date(Date.parse(valueCheckIn)).getDate() + 1)).toLocaleDateString();
+        const textValor = `No valor informado de *${valorTotal},00* , entre *${checkInFormated} e ${checkOutFormated}* `;
+        const hasTaxiDog = document.querySelector('#taxiDog:checked')!==null;
     
-    const addPet =()=>{
-        setPets([...pets,new Date().getTime()]);
+        const TextProprietary = Array.from(document.querySelectorAll('.user input')).map(userInput => (
+            `${userInput.name}: *${userInput.value}* `
+        )).join('%0a');
+        const msg = `Ola! %0a Solicito hospedagem ${hasTaxiDog?'*com taxi dog*':''} para: %0a ${textPets} %0a ${textValor} %0a Meu Dados: %0a ${TextProprietary}`;
+        window.open(`https://web.whatsapp.com/send?phone=5561981087386&text=${msg}`);
     }
-    const removePet = (id)=>{
-        var array = [...pets]; 
+
+    const addPet = () => {
+        setPets([...pets, new Date().getTime()]);
+    }
+    const removePet = (id) => {
+        var array = [...pets];
         var index = array.indexOf(id)
         if (index !== -1) {
             array.splice(index, 1);
             setPets(array);
         }
     }
-    const setCheckIn =(e)=>{
-        const nDate = new Date(new Date().setDate(new Date(Date.parse(e.target.value)).getDate()+1));
-        setValueCheckIn(nDate.toISOString().substr(0,10));
-        const nDateCheckOut = new Date(new Date().setDate(nDate.getDate()+1));
-        setValueCheckOut(nDateCheckOut.toISOString().substr(0,10));
-        setMinValueCheckOut(nDateCheckOut.toISOString().substr(0,10)) 
+    const setCheckIn = (e) => {
+        const nDate = new Date(new Date().setDate(new Date(Date.parse(e.target.value)).getDate() + 1));
+        setValueCheckIn(nDate.toISOString().substr(0, 10));
+        const nDateCheckOut = new Date(new Date().setDate(nDate.getDate() + 1));
+        setValueCheckOut(nDateCheckOut.toISOString().substr(0, 10));
+        setMinValueCheckOut(nDateCheckOut.toISOString().substr(0, 10))
     }
-    const setCheckOut =(e)=>{
-        const nDate = new Date(new Date().setDate(new Date(Date.parse(e.target.value)).getDate()+1));
-        setValueCheckOut(nDate.toISOString().substr(0,10));
-        
+    const setCheckOut = (e) => {
+        const nDate = new Date(new Date().setDate(new Date(Date.parse(e.target.value)).getDate() + 1));
+        setValueCheckOut(nDate.toISOString().substr(0, 10));
+
     }
-    const handlePetChange =()=>{
+    const handlePetChange = () => {
         /*clear to recalculate*/
         setValorTotal(0);
     }
-
-    useEffect(()=>{
+   
+    useEffect(() => {
         const total = Array.from(document.querySelectorAll('.pets select'))
-        .map( (el) =>{
-            const check = el.parentNode.parentNode.querySelector('input[type="checkbox"]:checked')
-            ? 20:0;
-            return parseInt(el.value)+check;
-        }).reduce((total,num) =>{
-        return total + Math.round(num);
-        },0);
+            .map((el) => {
+                const check = el.parentNode.parentNode.querySelector('input[type="checkbox"]:checked')
+                    ? 20 : 0;
+                return parseInt(el.value) + check;
+            }).reduce((total, num) => {
+                return total + Math.round(num);
+            }, 0);
 
         const msDiff = new Date(Date.parse(valueCheckOut)).getTime() - new Date(valueCheckIn).getTime();
         const dayDiff = Math.floor(msDiff / (1000 * 60 * 60 * 24));
-        setValorTotal(total * dayDiff);
-    },[valorTotal,pets,valueCheckOut,valueCheckIn]);
+        const totalWithTaxi = (total * dayDiff)+(document.querySelector('#taxiDog').checked?valorTaxiDog:0);
+        setValorTotal(totalWithTaxi);
+    }, [valorTotal, pets, valueCheckOut, valueCheckIn]);
 
-    
+
 
     return (
         <>
-        <CurrentStyle/>
-        <form onSubmit={handleSubmmit}>
-            <div className="user">
-            <h2>Reservar</h2>
-            <div className="input">
-                <input type="text" 
-                required />
-                <label>Nome</label>
-            </div>
-            <div className="input">
-                <input type="email" 
-                required />
-                <label>E-mail</label>
-            </div>
-            <div className="input">
-                <input 
-                type="text" 
-                placeholder="00000000000" 
-                pattern="[0-9]{11}" 
-                required />
-                <label>CPF</label>
-            </div>
-            <div className="input">
-                <input type="phone" 
-                placeholder="00000000000"
-                pattern="[0-9]{11}" required />
-                <label>WhatsApp</label>
-            </div>
-            <div className="input">
-                <input type="text"
-                required />
-                <label>Endereço completo</label>
-            </div>
-            </div>
-
-            <div className="pets">
-                <div className="input" >
-                    <input type="date"
-                    value={valueCheckIn}
-                    min={new Date().toISOString().substr(0,10)}
-                    onChange={setCheckIn} 
-                    required/>
-                    <span>Check-In</span>
-                </div>
-                <div className="input">
-                    <input type="date" 
-                    value={valueCheckOut}
-                    min={minValueChekOut}
-                    onChange={setCheckOut}
-                    required/>
-                    <span>Check-Out</span>
-                </div>
-            </div>
-
-            <button type="button" onClick={addPet}>
-                <span>
-                    <FaPlus/> Incluir Pet <FaPaw/>
-                </span>
-                <span>
-                    Total de pets {pets.length}
-                </span>
-            </button>
-            {pets.map(pet =>(
-                <div className="pets"  key={pet}>
+            <CurrentStyle />
+            <form onSubmit={handleSubmmit}>
+                <h2>Reservar</h2>
+                <div className="user">
                     <div className="input">
-                        <input type="text"
-                        required />
+                        <input type="text" name="nome"
+                            required />
                         <label>Nome</label>
                     </div>
                     <div className="input">
-                        <select onChange={handlePetChange}>
-                            <option value="60">0 - 10kg</option>
-                            <option  value="70">1 - 20kg</option>
-                            <option  value="80">21 - 30kg</option>
-                            <option  value="90">31 - 40kg</option>
-                            <option  value="100">Acima de 40kg</option>
-                        </select>
+                        <input type="email" name="email"
+                            required />
+                        <label>E-mail</label>
                     </div>
+                    <div className="input">
+                        <input
+                            type="text" name="CPF" 
+                            placeholder="00000000000"
+                            pattern="[0-9]{11}"
+                            required />
+                        <label>CPF</label>
+                    </div>
+                    <div className="input">
+                        <input type="phone" name="Telefone"
+                            placeholder="00000000000"
+                            pattern="[0-9]{11}" required />
+                        <label>WhatsApp</label>
+                    </div>
+                    <div className="input">
+                        <input type="text" name="Endereço"
+                            required />
+                        <label>Endereço completo</label>
+                    </div>
+                </div>
 
-                    <a href="javascirpt:void(0)" 
-                    title="Remover Pet" 
-                    onClick={()=> removePet(pet) } >
-                        &nbsp;<FaTrash/>&nbsp;
+                <div className="pets dates">
+                    <div className="input" >
+                        <input type="date"
+                            value={valueCheckIn}
+                            min={new Date().toISOString().substr(0, 10)}
+                            onChange={setCheckIn}
+                            required />
+                        <span>Check-In</span>
+                    </div>
+                    <div className="input">
+                        <input type="date"
+                            value={valueCheckOut}
+                            min={minValueChekOut}
+                            onChange={setCheckOut}
+                            required />
+                        <span>Check-Out</span>
+                    </div>
+                </div>
+                <div className="pets taxiDog">
+                    <label className="check" onChange={handlePetChange} htmlFor="taxiDog">
+                        <input type="checkbox" id="taxiDog" />
+                        Quero Taxi dog por R$ {valorTaxiDog},00 .
+                    </label>
+                </div>
+
+                <h2>Seus Pets</h2>
+                
+                {pets.map(pet => (
+                    <div className="pets list" key={pet}>
+                        <div className="input">
+                            <input type="text"
+                                required />
+                            <label>Nome</label>
+                        </div>
+                        <div className="input">
+                            <select onChange={handlePetChange}>
+                                <option value="60">0 - 10kg</option>
+                                <option value="70">1 - 20kg</option>
+                                <option value="80">21 - 30kg</option>
+                                <option value="90">31 - 40kg</option>
+                                <option value="100">Acima de 40kg</option>
+                            </select>
+                        </div>
+
+                        <a href="javascirpt:void(0)"
+                            title="Remover Pet"
+                            onClick={() => removePet(pet)} >
+                            &nbsp;<FaTrash />&nbsp;
                     </a>
-                    
+
                     <label className="check" onChange={handlePetChange} htmlFor={pet}>
-                        <input type="checkbox" id={pet}/>
+                        <input type="checkbox" id={pet} />
                         Seu pet pessui alguma necessidade especial?
                     </label>
-                    
-                </div>
-            ))}
-                
-            <button type="submit">
-                <span>
-                    Enviar solicitação <FaPaperPlane/>
-                </span>
-                <span className="currency">
-                    {valorTotal}
-                </span>
-            </button>
-        </form>
+
+                    </div>
+                ))}
+                <button type="button" onClick={addPet}>
+                    <span>
+                        <FaPlus /> Incluir Pet <FaPaw />
+                    </span>
+                    <span>
+                        Total de pets {pets.length}
+                    </span>
+                </button>
+                <h2 style={{marginTop:32}}>Ou</h2>
+
+                <button type="submit">
+                    <span>
+                        Enviar solicitação <FaPaperPlane />
+                    </span>
+                    <span className="currency">
+                        {valorTotal}
+                    </span>
+                </button>
+            </form>
         </>
     )
 }
