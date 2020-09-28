@@ -158,14 +158,13 @@ input[type="checkbox"]:checked{
 `;
 
 export default () => {
-    var dateTomorrow = new Date();
-    dateTomorrow.setDate(new Date().getDate() + 1);
+    var dateTomorrow = new Date(new Date().getFullYear(),new Date().getMonth(), new Date().getDate() + 1);
 
     const [pets, setPets] = useState([new Date().getTime()]);
     const [valorTotal, setValorTotal] = useState(60);
     const [valueCheckIn, setValueCheckIn] = useState(new Date().toISOString().substr(0, 10));
     const [valueCheckOut, setValueCheckOut] = useState(dateTomorrow.toISOString().substr(0, 10));
-    const [minValueChekOut, setMinValueCheckOut] = useState(dateTomorrow);
+    const [minValueChekOut, setMinValueCheckOut] = useState(dateTomorrow.toISOString().substr(0, 10));
     const valorTaxiDog = 50;
     const handleSubmmit = (e) => {
         e.preventDefault();
@@ -200,14 +199,25 @@ export default () => {
         }
     }
     const setCheckIn = (e) => {
-        const nDate = new Date(new Date().setDate(new Date(Date.parse(e.target.value)).getDate() + 1));
+        const checkInDay = new Date(Date.parse(e.target.value)).getDate() + 1;
+        const checkInMonth = new Date(Date.parse(e.target.value)).getMonth();
+        const checkInYear =  new Date(Date.parse(e.target.value)).getFullYear();
+        const nDate = new Date(checkInYear,checkInMonth,checkInDay);
+
+        const checkOutDay = new Date(Date.parse(e.target.value)).getDate() + 2;
+        const checkOutMonth = new Date(Date.parse(e.target.value)).getMonth();
+        const checkOutYear =  new Date(Date.parse(e.target.value)).getFullYear();
+        const nDateCheckOut =new Date(checkOutYear,checkOutMonth,checkOutDay);
+
         setValueCheckIn(nDate.toISOString().substr(0, 10));
-        const nDateCheckOut = new Date(new Date().setDate(nDate.getDate() + 1));
         setValueCheckOut(nDateCheckOut.toISOString().substr(0, 10));
         setMinValueCheckOut(nDateCheckOut.toISOString().substr(0, 10))
     }
     const setCheckOut = (e) => {
-        const nDate = new Date(new Date().setDate(new Date(Date.parse(e.target.value)).getDate() + 1));
+        const day = new Date(Date.parse(e.target.value)).getDate() + 1;
+        const month = new Date(Date.parse(e.target.value)).getMonth();
+        const year =  new Date(Date.parse(e.target.value)).getFullYear();
+        const nDate = new Date(year,month,day);
         setValueCheckOut(nDate.toISOString().substr(0, 10));
 
     }
