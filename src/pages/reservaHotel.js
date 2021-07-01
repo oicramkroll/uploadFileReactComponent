@@ -25,13 +25,14 @@ body{
 }
 form {
     /*background: rgb(var(--bg-color) , 0.3); */
-    width:100%;
+    /*width:100%;*/
     /*max-width:500px;
     margin:32px auto;
     padding:32px 64px;*/
     padding-right:10px;
     display:flex;
     flex-direction:column;
+    margin:0 5%;
 }
 form h2{
     margin-bottom:32px;
