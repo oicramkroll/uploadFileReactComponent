@@ -166,7 +166,7 @@ export default () => {
     const [valueCheckIn, setValueCheckIn] = useState(new Date().toISOString().substr(0, 10));
     const [valueCheckOut, setValueCheckOut] = useState(dateTomorrow.toISOString().substr(0, 10));
     const [minValueChekOut, setMinValueCheckOut] = useState(dateTomorrow.toISOString().substr(0, 10));
-    const valorTaxiDog = 50;
+    const valorTaxiDog = 120;
     const handleSubmmit = (e) => {
         e.preventDefault();
         if (valorTotal === 0) alert('Inclua pets');
@@ -306,7 +306,7 @@ export default () => {
                         Quero Taxi dog por R$ {valorTaxiDog},00 .
                     </label>
                 </div>
-
+                <p>Taxi dog sujeito a alteração de acordo com a distância.</p>
                 <h2>Seus Pets</h2>
                 
                 {pets.map(pet => (
