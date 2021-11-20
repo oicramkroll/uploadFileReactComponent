@@ -185,7 +185,7 @@ export default () => {
             `${userInput.name}: *${userInput.value}* `
         )).join('%0a');
         const msg = `Ola! %0a Solicito hospedagem ${hasTaxiDog?'*com taxi dog*':''} para: %0a ${textPets} %0a ${textValor} %0a Meu Dados: %0a ${TextProprietary}`;
-        window.open(`https://api.whatsapp.com/send?phone=5561981087386&text=${msg}`);
+        window.open(`https://api.whatsapp.com/send?phone=5561993738689&text=${msg}`);
     }
 
     const addPet = () => {
