@@ -318,11 +318,11 @@ export default () => {
                         </div>
                         <div className="input">
                             <select onChange={handlePetChange}>
-                                <option value="60">0 - 10kg</option>
-                                <option value="70">1 - 20kg</option>
-                                <option value="80">21 - 30kg</option>
-                                <option value="90">31 - 40kg</option>
-                                <option value="100">Acima de 40kg</option>
+                                <option value="70">0 - 10kg</option>
+                                <option value="80">1 - 20kg</option>
+                                <option value="90">21 - 30kg</option>
+                                <option value=100">31 - 40kg</option>
+                                <option value="110">Acima de 40kg</option>
                             </select>
                         </div>
 
